@@ -6,4 +6,9 @@ L015.NPROMA=256
 L015.NPROMA=32
 L015.NPROMA=512
 L015.NPROMA=64
+*.o
+*.mod
+*.x
+L*
+*.txt
 
