@@ -11,11 +11,10 @@ module load pgi/17.7
 \rm -f *.o *.x *.mod
 
 ARCH=GPU
-#OPTS="-Mcuda=maxregcount:60 -Mcuda=lineinfo"
-OPTS="-Mcuda -Mcuda=lineinfo"
+OPTS="-Mcuda -Mcuda=lineinfo -Mlarge_arrays"
 
-pgf90 -mp -c -byteswapio parkind1.F90
-pgf90 -mp -c -byteswapio load_mod.F90
+pgf90 -mp -c -byteswapio -Mlarge_arrays parkind1.F90
+pgf90 -mp -c -byteswapio -Mlarge_arrays load_mod.F90
 
 for f in yomlog main_simple4_actke simple4_acbl89 simple4_acevolet simple4_actke simple4_acturb simple4_fl2hl simple4_hl2fl run_simple4_actke
 do
