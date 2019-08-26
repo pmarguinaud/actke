@@ -1,5 +1,6 @@
 
-all: main_simple4_actke.x main_simple2_actke.x
+all: main_simple4_actke.x 
+#all: main_simple4_actke.x main_simple2_actke.x
 
 clean:
 	\rm -f *.xml *.o *.mod *.x *.optrpt
