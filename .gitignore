@@ -11,4 +11,7 @@ L015.NPROMA=64
 *.x
 L*
 *.txt
+*.xml
+*.optrpt
+*.swp
 
