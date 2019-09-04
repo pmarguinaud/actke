@@ -293,6 +293,7 @@ integer :: beginning,end, rate,count_max
 real(kind=8) :: start_time,end_time
 #endif
 REAL :: TIME
+INTEGER :: ZV1 (8), ZV0 (8)
 
 #include "run_simple4_actke.intfb.h"
 
@@ -566,6 +567,8 @@ KSIZST_2 = KSIZST
 KPTRST_2 = KPTRST
 NGPBLKS_2 = NGPBLKS
 
+CALL DATE_AND_TIME (VALUES=ZV0)
+
 #ifdef GPU
 ISTAT = CUDAEVENTCREATE (STARTEVENT)
 ISTAT = CUDAEVENTCREATE (STOPEVENT)
@@ -603,6 +606,13 @@ print *, 'CPU time : ',end_time-start_time,' sec.'
 #endif
 
 PRINT *, " TIME = ", TIME
+
+CALL DATE_AND_TIME (VALUES=ZV1)
+
+PRINT *, " DATE_AND_TIME = ", REAL (ZV1 (5) - ZV0 (5), 8) * 3600._8 + REAL (ZV1 (6) - ZV0 (6), 8) * 60._8 + &
+& REAL (ZV1 (7) - ZV0 (7), 8) + REAL (ZV1 (8) - ZV0 (8), 8) / 1000._8, " seconds"
+
+
 
 #ifdef UNDEF
 
