@@ -12,7 +12,7 @@ OPT_FRTFLAGS = -fp-model source -g -O2 -ip -check bounds -debug full
 #FC = /home/gmap/mrpm/marguina/install/gmkpack_support/wrapper/I161150/ifort $(FRTFLAGS) $(OPT_FRTFLAGS) -DCPU
 
 
-FC = pgf90 -DGPU  -mp -byteswapio -Mlarge_arrays -Mcuda -Mcuda=lineinfo 
+FC = pgf90 -DCPU  -mp -byteswapio -Mlarge_arrays -fast -Minfo=accel,all,intensity,ccff -ta=tesla:managed
 
 main_simple2_actke.x: main_simple2_actke.o run_simple2_actke.o simple2_acbl89.o  simple2_acevolet.o  simple2_actke.o  simple2_acturb.o  simple2_fl2hl.o  simple2_hl2fl.o parkind1.o load_mod.o yomlog.o
 	$(FC) -o main_simple2_actke.x main_simple2_actke.o run_simple2_actke.o simple2_acbl89.o  simple2_acevolet.o  simple2_actke.o  simple2_acturb.o  simple2_fl2hl.o  simple2_hl2fl.o parkind1.o load_mod.o yomlog.o
