@@ -196,6 +196,7 @@ TYPE (CUDAEVENT) :: STARTEVENT, STOPEVENT
 #endif
 REAL :: TIME
 INTEGER :: ZV1 (8), ZV0 (8), IC
+INTEGER, PARAMETER :: NTIMES = 10
 
 #include "run_simple4_actke.intfb.h"
 
@@ -397,7 +398,7 @@ CALL DATE_AND_TIME (VALUES=ZV0)
 
 PRINT *, "-- RUN"
 
-DO IC = 1, 1
+DO IC = 1, NTIMES
 
 CALL RUN_SIMPLE4_ACTKE &
 &                      (KIDIA_ALL, KFDIA_ALL, KLON_ALL, KTDIAT_ALL, KTDIAN_ALL, KLEV_ALL,   &
@@ -417,8 +418,8 @@ ENDDO
 
 CALL DATE_AND_TIME (VALUES=ZV1)
 
-PRINT *, " DATE_AND_TIME = ", REAL (ZV1 (5) - ZV0 (5), 8) * 3600._8 + REAL (ZV1 (6) - ZV0 (6), 8) * 60._8 + & 
-& REAL (ZV1 (7) - ZV0 (7), 8) + REAL (ZV1 (8) - ZV0 (8), 8) / 1000._8, " seconds"
+PRINT *, " DATE_AND_TIME = ", (REAL (ZV1 (5) - ZV0 (5), 8) * 3600._8 + REAL (ZV1 (6) - ZV0 (6), 8) * 60._8 + & 
+& REAL (ZV1 (7) - ZV0 (7), 8) + REAL (ZV1 (8) - ZV0 (8), 8) / 1000._8) / NTIMES, " seconds"
 
 #ifdef UNDEF
 WRITE (0, *) __FILE__, ':', __LINE__ 
