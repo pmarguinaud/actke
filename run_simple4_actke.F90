@@ -109,7 +109,7 @@ INTEGER(KIND=JPIM), INTENT (   IN) :: NGPBLKS
 INTEGER :: IBLOCK, IIDIA, IFDIA, JJ
 
 
-!$acc parallel loop gang private (IBLOCK) 
+!$acc parallel loop gang private (IBLOCK) vector_length (KLON)
 
 DO IBLOCK = 1, NGPBLKS
 

@@ -1,9 +1,9 @@
-!$acc routine(SIMPLE4_ACBL89) worker
-!$acc routine(SIMPLE4_ACEVOLET) worker
-!$acc routine(SIMPLE4_ACTKE) worker
-!$acc routine(SIMPLE4_ACTURB) worker
-!$acc routine(SIMPLE4_FL2HL) worker
-!$acc routine(SIMPLE4_HL2FL) worker
+!$acc routine(SIMPLE4_ACBL89) seq
+!$acc routine(SIMPLE4_ACEVOLET) seq
+!$acc routine(SIMPLE4_ACTKE) seq
+!$acc routine(SIMPLE4_ACTURB) seq
+!$acc routine(SIMPLE4_FL2HL) seq
+!$acc routine(SIMPLE4_HL2FL) seq
 
 #define DO_JLON 
 #define ENDDO_JLON 
