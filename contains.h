@@ -32,10 +32,12 @@ IF (IBL == ICOUNT) THEN
   ALLOCATE (JJ1 (KLON1))
   IGP = IBL * KLON
   IBL1R = (IGP - 1) / KLON1
+  IF (IBL1R > 0) THEN
   DO IBL1 = IBL1R + 1, ICOUNT1
     JJ1 (:) = KALL (:, 1 + MODULO (IBL1, IBL1R))
     KALL (:, IBL1) = JJ1 (:)
   ENDDO
+  ENDIF
   DEALLOCATE (JJ1)
 ENDIF
 
@@ -81,10 +83,12 @@ IF (IBL == ICOUNT) THEN
   ALLOCATE (JJ2 (KLON1, KLB (2):KUB (2)))
   IGP = IBL * KLON
   IBL1R = (IGP - 1) / KLON1
+  IF (IBL1R > 0) THEN
   DO IBL1 = IBL1R + 1, ICOUNT1
     JJ2 (:,:) = KALL (:,:,1 + MODULO (IBL1, IBL1R))
     KALL (:,:,IBL1) = JJ2 (:,:)
   ENDDO
+  ENDIF
   DEALLOCATE (JJ2)
 ENDIF
 
@@ -134,10 +138,12 @@ IF (LLPROMA) THEN
     ALLOCATE (ZZ1 (KLON1))
     IGP = IBL * KLON
     IBL1R = (IGP - 1) / KLON1
+    IF (IBL1R > 0) THEN
     DO IBL1 = IBL1R + 1, ICOUNT1
       ZZ1 (:) = PALL (:, 1 + MODULO (IBL1, IBL1R))
       PALL (:, IBL1) = ZZ1 (:)
     ENDDO
+    ENDIF
     DEALLOCATE (ZZ1)
   ENDIF
 
@@ -184,6 +190,8 @@ IF (IBL == 1) THEN
   ALLOCATE (PALL (KLON1, KLB (2):KUB (2), ICOUNT1))
 ENDIF
 
+! Valid part of the block JLON <= IFDIA
+
 DO JLON = 1, IFDIA (IBL)
   IGP = JLON + (IBL - 1) * KLON
   IBL1 = 1 + (IGP - 1) / KLON1
@@ -192,6 +200,9 @@ DO JLON = 1, IFDIA (IBL)
     PALL (JLON1, :, IBL1) = P (JLON, :)
   ENDIF
 ENDDO
+
+! JLON > IFDIA : use last column
+
 DO JLON = IFDIA (IBL)+1, KLON
   IGP = JLON + (IBL - 1) * KLON
   IBL1 = 1 + (IGP - 1) / KLON1
@@ -201,14 +212,18 @@ DO JLON = IFDIA (IBL)+1, KLON
   ENDIF
 ENDDO
 
+! Last block
+
 IF (IBL == ICOUNT) THEN
   ALLOCATE (ZZ2 (KLON1, KLB (2):KUB (2)))
   IGP = IBL * KLON
   IBL1R = (IGP - 1) / KLON1
+  IF (IBL1R > 0) THEN
   DO IBL1 = IBL1R + 1, ICOUNT1
     ZZ2 (:,:) = PALL (:, :, 1 + MODULO (IBL1, IBL1R))
     PALL (:, :, IBL1) = ZZ2 (:,:)
   ENDDO
+  ENDIF
   DEALLOCATE (ZZ2)
 ENDIF
 

@@ -13,6 +13,7 @@ OPT_FRTFLAGS = -fp-model source -g -O2 -ip -check bounds -debug full
 
 
 FC = pgf90 -DGPU  -mp -byteswapio -Mlarge_arrays -Mcuda -Mcuda=lineinfo  -O3
+FC = pgf90 -DCPU  -mp -byteswapio -Mlarge_arrays -Minfo=mp -mp -O0 -g
 
 main_simple2_actke.x: main_simple2_actke.o run_simple2_actke.o simple2_acbl89.o  simple2_acevolet.o  simple2_actke.o  simple2_acturb.o  simple2_fl2hl.o  simple2_hl2fl.o parkind1.o load_mod.o yomlog.o
 	$(FC) -o main_simple2_actke.x main_simple2_actke.o run_simple2_actke.o simple2_acbl89.o  simple2_acevolet.o  simple2_actke.o  simple2_acturb.o  simple2_fl2hl.o  simple2_hl2fl.o parkind1.o load_mod.o yomlog.o
