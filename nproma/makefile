@@ -5,7 +5,7 @@ clean:
 	\rm -f *.xml *.o *.mod *.x *.optrpt
 
 
-FC = pgf90 -DGPU  -mp -byteswapio -Mlarge_arrays -Mcuda -Mcuda=lineinfo  -O3
+FC = pgf90 -mp -byteswapio -Mlarge_arrays -O3
 
 load_mod.o: parkind1.o load_mod.F90
 	$(FC) -c load_mod.F90
