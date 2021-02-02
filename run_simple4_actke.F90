@@ -104,7 +104,7 @@ INTEGER(KIND=JPIM), INTENT (   IN) :: KPTRST
 REAL(KIND=JPRB)   , INTENT (INOUT) :: PSTACK   (KLON, KSIZST, NGPBLKS)
 INTEGER(KIND=JPIM), INTENT (   IN) :: NGPBLKS  
 
-#include "simple2_actke.intfb.h"
+#include "simple4_actke.intfb.h"
 
 INTEGER :: IBLOCK, IIDIA, IFDIA, JJ
 
@@ -118,7 +118,7 @@ DO IBLOCK = 1, NGPBLKS
     IIDIA = JJ
     IFDIA = JJ
    
-    CALL SIMPLE2_ACTKE (IIDIA, IFDIA, KLON, KTDIAT, KTDIAN, KLEV, PAPHI (:,:,       &
+    CALL SIMPLE4_ACTKE (IIDIA, IFDIA, KLON, KTDIAT, KTDIAN, KLEV, PAPHI (:,:,       &
     & IBLOCK), PAPHIF (:,:, IBLOCK), PAPRS (:,:, IBLOCK), PAPRSF (:,:, IBLOCK),     &
     & PDELP (:,:, IBLOCK), PR (:,:, IBLOCK), PT (:,:, IBLOCK), PU (:,:, IBLOCK),    &
     & PV (:,:, IBLOCK), PQ (:,:, IBLOCK), PLSCPE (:,:, IBLOCK), PCD (:, IBLOCK),    &

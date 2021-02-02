@@ -1,13 +1,5 @@
 PROGRAM WRAP_ACTKE
 
-#ifdef GPU
-#define ATTR_ARG , DEVICE
-USE CUDAFOR
-#else
-#define ATTR_ARG
-#endif
-
-USE YOMLOG
 USE LOAD_MOD
 USE XRD_GETOPTIONS
 
@@ -86,99 +78,99 @@ REAL(KIND=JPRB)   , POINTER :: PSTACK     (:, :)
 INTEGER(KIND=JPIM)          :: ICOUNT    
 INTEGER(KIND=JPIM)          :: IDUM
 REAL(KIND=JPRB)             :: ZDUM
-INTEGER(KIND=JPIM) ATTR_ARG :: KIDIA_ALL    
-INTEGER(KIND=JPIM) ATTR_ARG :: KFDIA_ALL    
-INTEGER(KIND=JPIM) ATTR_ARG :: KLON_ALL     
-INTEGER(KIND=JPIM) ATTR_ARG :: KTDIAT_ALL   
-INTEGER(KIND=JPIM) ATTR_ARG :: KTDIAN_ALL   
-INTEGER(KIND=JPIM) ATTR_ARG :: KLEV_ALL     
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PAPHI_ALL    (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PAPHIF_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PAPRS_ALL    (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PAPRSF_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PDELP_ALL    (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PR_ALL       (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PT_ALL       (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PU_ALL       (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PV_ALL       (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PQ_ALL       (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PLSCPE_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PCD_ALL      (:, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PCH_ALL      (:, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PGZ0_ALL     (:, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PTS_ALL      (:, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PQS_ALL      (:, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PQICE_ALL    (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PQLI_ALL     (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PECT_ALL     (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PPRODTH_ALL  (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PNLAB_ALL    (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PNLABCVP_ALL (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PKTROV_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PKUROV_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PXTROV_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PXUROV_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PNBVNO_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PNEBS_ALL    (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PQCS_ALL     (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PNEBS0_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PQCS0_ALL    (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PCOEFN_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PFECT_ALL    (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PECT1_ALL    (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PTPRDY_ALL   (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PEDR_ALL     (:, :, :)
-REAL(KIND=JPRB) ATTR_ARG          :: RG_ALL       
-REAL(KIND=JPRB) ATTR_ARG          :: RPRTH_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: ECTMIN_ALL   
-REAL(KIND=JPRB) ATTR_ARG          :: TSPHY_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: ACBRPHIM_ALL 
-REAL(KIND=JPRB) ATTR_ARG          :: ADISE_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: ADISI_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: AKN_ALL      
-REAL(KIND=JPRB) ATTR_ARG          :: ALD_ALL      
-REAL(KIND=JPRB) ATTR_ARG          :: ALMAV_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: ALMAVE_ALL   
-REAL(KIND=JPRB) ATTR_ARG          :: ALMAVX_ALL   
-REAL(KIND=JPRB) ATTR_ARG          :: ALPHAE_ALL   
-REAL(KIND=JPRB) ATTR_ARG          :: ALPHAT_ALL   
-REAL(KIND=JPRB) ATTR_ARG          :: ARSB2_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: ARSC1_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: ECTMAX_ALL   
-REAL(KIND=JPRB) ATTR_ARG          :: EDB_ALL      
-REAL(KIND=JPRB) ATTR_ARG          :: EDC_ALL      
-REAL(KIND=JPRB) ATTR_ARG          :: EDD_ALL      
-REAL(KIND=JPRB) ATTR_ARG          :: RALPD_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RALPS_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RALPW_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RATM_ALL     
-REAL(KIND=JPRB) ATTR_ARG          :: RBETD_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RBETS_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RBETW_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RCPV_ALL     
-REAL(KIND=JPRB) ATTR_ARG          :: RCS_ALL      
-REAL(KIND=JPRB) ATTR_ARG          :: RCW_ALL      
-REAL(KIND=JPRB) ATTR_ARG          :: RD_ALL       
-REAL(KIND=JPRB) ATTR_ARG          :: RDT_ALL      
-REAL(KIND=JPRB) ATTR_ARG          :: RETV_ALL     
-REAL(KIND=JPRB) ATTR_ARG          :: RGAMD_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RGAMS_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RGAMW_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RKAPPA_ALL   
-REAL(KIND=JPRB) ATTR_ARG          :: RLSTT_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RLVTT_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: RTT_ALL      
-REAL(KIND=JPRB) ATTR_ARG          :: RV_ALL       
-REAL(KIND=JPRB) ATTR_ARG          :: UDECT_ALL    
-REAL(KIND=JPRB) ATTR_ARG          :: UPRETMAX_ALL 
-REAL(KIND=JPRB) ATTR_ARG          :: UPRETMIN_ALL 
-REAL(KIND=JPRB) ATTR_ARG          :: USHEARM_ALL  
-REAL(KIND=JPRB) ATTR_ARG          :: USURIC_ALL   
-REAL(KIND=JPRB) ATTR_ARG          :: VKARMN_ALL   
-REAL(KIND=JPRB) ATTR_ARG, POINTER :: PSTACK_ALL (:, :, :)
-INTEGER(KIND=JPIM) ATTR_ARG       :: KSIZST_ALL
-INTEGER(KIND=JPIM) ATTR_ARG       :: KPTRST_ALL
-INTEGER(KIND=JPIM) ATTR_ARG       :: ICOUNT_ALL
+INTEGER(KIND=JPIM)          :: KIDIA_ALL    
+INTEGER(KIND=JPIM)          :: KFDIA_ALL    
+INTEGER(KIND=JPIM)          :: KLON_ALL     
+INTEGER(KIND=JPIM)          :: KTDIAT_ALL   
+INTEGER(KIND=JPIM)          :: KTDIAN_ALL   
+INTEGER(KIND=JPIM)          :: KLEV_ALL     
+REAL(KIND=JPRB)         , POINTER :: PAPHI_ALL    (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PAPHIF_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PAPRS_ALL    (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PAPRSF_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PDELP_ALL    (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PR_ALL       (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PT_ALL       (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PU_ALL       (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PV_ALL       (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PQ_ALL       (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PLSCPE_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PCD_ALL      (:, :)
+REAL(KIND=JPRB)         , POINTER :: PCH_ALL      (:, :)
+REAL(KIND=JPRB)         , POINTER :: PGZ0_ALL     (:, :)
+REAL(KIND=JPRB)         , POINTER :: PTS_ALL      (:, :)
+REAL(KIND=JPRB)         , POINTER :: PQS_ALL      (:, :)
+REAL(KIND=JPRB)         , POINTER :: PQICE_ALL    (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PQLI_ALL     (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PECT_ALL     (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PPRODTH_ALL  (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PNLAB_ALL    (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PNLABCVP_ALL (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PKTROV_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PKUROV_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PXTROV_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PXUROV_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PNBVNO_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PNEBS_ALL    (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PQCS_ALL     (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PNEBS0_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PQCS0_ALL    (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PCOEFN_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PFECT_ALL    (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PECT1_ALL    (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PTPRDY_ALL   (:, :, :)
+REAL(KIND=JPRB)         , POINTER :: PEDR_ALL     (:, :, :)
+REAL(KIND=JPRB)                   :: RG_ALL       
+REAL(KIND=JPRB)                   :: RPRTH_ALL    
+REAL(KIND=JPRB)                   :: ECTMIN_ALL   
+REAL(KIND=JPRB)                   :: TSPHY_ALL    
+REAL(KIND=JPRB)                   :: ACBRPHIM_ALL 
+REAL(KIND=JPRB)                   :: ADISE_ALL    
+REAL(KIND=JPRB)                   :: ADISI_ALL    
+REAL(KIND=JPRB)                   :: AKN_ALL      
+REAL(KIND=JPRB)                   :: ALD_ALL      
+REAL(KIND=JPRB)                   :: ALMAV_ALL    
+REAL(KIND=JPRB)                   :: ALMAVE_ALL   
+REAL(KIND=JPRB)                   :: ALMAVX_ALL   
+REAL(KIND=JPRB)                   :: ALPHAE_ALL   
+REAL(KIND=JPRB)                   :: ALPHAT_ALL   
+REAL(KIND=JPRB)                   :: ARSB2_ALL    
+REAL(KIND=JPRB)                   :: ARSC1_ALL    
+REAL(KIND=JPRB)                   :: ECTMAX_ALL   
+REAL(KIND=JPRB)                   :: EDB_ALL      
+REAL(KIND=JPRB)                   :: EDC_ALL      
+REAL(KIND=JPRB)                   :: EDD_ALL      
+REAL(KIND=JPRB)                   :: RALPD_ALL    
+REAL(KIND=JPRB)                   :: RALPS_ALL    
+REAL(KIND=JPRB)                   :: RALPW_ALL    
+REAL(KIND=JPRB)                   :: RATM_ALL     
+REAL(KIND=JPRB)                   :: RBETD_ALL    
+REAL(KIND=JPRB)                   :: RBETS_ALL    
+REAL(KIND=JPRB)                   :: RBETW_ALL    
+REAL(KIND=JPRB)                   :: RCPV_ALL     
+REAL(KIND=JPRB)                   :: RCS_ALL      
+REAL(KIND=JPRB)                   :: RCW_ALL      
+REAL(KIND=JPRB)                   :: RD_ALL       
+REAL(KIND=JPRB)                   :: RDT_ALL      
+REAL(KIND=JPRB)                   :: RETV_ALL     
+REAL(KIND=JPRB)                   :: RGAMD_ALL    
+REAL(KIND=JPRB)                   :: RGAMS_ALL    
+REAL(KIND=JPRB)                   :: RGAMW_ALL    
+REAL(KIND=JPRB)                   :: RKAPPA_ALL   
+REAL(KIND=JPRB)                   :: RLSTT_ALL    
+REAL(KIND=JPRB)                   :: RLVTT_ALL    
+REAL(KIND=JPRB)                   :: RTT_ALL      
+REAL(KIND=JPRB)                   :: RV_ALL       
+REAL(KIND=JPRB)                   :: UDECT_ALL    
+REAL(KIND=JPRB)                   :: UPRETMAX_ALL 
+REAL(KIND=JPRB)                   :: UPRETMIN_ALL 
+REAL(KIND=JPRB)                   :: USHEARM_ALL  
+REAL(KIND=JPRB)                   :: USURIC_ALL   
+REAL(KIND=JPRB)                   :: VKARMN_ALL   
+REAL(KIND=JPRB)         , POINTER :: PSTACK_ALL (:, :, :)
+INTEGER(KIND=JPIM)                :: KSIZST_ALL
+INTEGER(KIND=JPIM)                :: KPTRST_ALL
+INTEGER(KIND=JPIM)                :: ICOUNT_ALL
 INTEGER, ALLOCATABLE :: IFDIA (:)
 INTEGER :: IBL
 INTEGER :: ISTAT, II
@@ -191,9 +183,6 @@ INTEGER, POINTER :: IDIFFBLOCK (:) => NULL ()
 INTEGER :: IFILE, ILINE, IIND
 REAL :: ZVALUE
 
-#ifdef GPU
-TYPE (CUDAEVENT) :: STARTEVENT, STOPEVENT
-#endif
 REAL :: TIME
 INTEGER :: ZV1 (8), ZV0 (8), IC
 INTEGER, PARAMETER :: NTIMES = 1
@@ -209,16 +198,6 @@ CALL GETOPTION ("--count", ICOUNT1)
 KLON1 = 0 
 CALL GETOPTION ("--nproma", KLON1)
 CALL CHECKOPTIONS ()
-
-
-
-ALLOCATE (IPTR (1), NFILE (2000), NLINE (2000), NIND (2000), RVALUE (2000))
-IPTR (1) = 0
-DO II = 1, 2000
-NFILE (II) = 0
-NLINE (II) = 0
-RVALUE (II) = -999.999
-ENDDO
 
 OPEN (ILUNC, FILE=TRIM (CLCASE)//"/ACTKE.COUNT", FORM="FORMATTED")
 READ (ILUNC, *) ICOUNT
@@ -419,20 +398,6 @@ CALL DATE_AND_TIME (VALUES=ZV1)
 
 PRINT *, " DATE_AND_TIME = ", (REAL (ZV1 (5) - ZV0 (5), 8) * 3600._8 + REAL (ZV1 (6) - ZV0 (6), 8) * 60._8 + & 
 & REAL (ZV1 (7) - ZV0 (7), 8) + REAL (ZV1 (8) - ZV0 (8), 8) / 1000._8) / NTIMES, " seconds"
-
-#ifdef UNDEF
-WRITE (0, *) __FILE__, ':', __LINE__ 
-
-DO II = 1, 2000
-  IFILE = NFILE  (II)
-  IF (IFILE == 0) EXIT
-  ILINE  = NLINE  (II)
-  IIND   = NIND   (II)
-  ZVALUE = RVALUE (II)
-  WRITE (*, '(A,":",I0," ",I6," ",E20.12)') CHAR (IFILE), ILINE, IIND, ZVALUE
-ENDDO
-#endif
-
 
 IF (LLDIFF .AND. ICOUNT0 == ICOUNT1 .AND. KLON0 == KLON1) THEN
 
