@@ -1,8 +1,11 @@
 MODULE YOMDATA
 
-REAL, POINTER :: ZZ (:) => NULL ()
-!$acc declare create(ZZ) 
+#define create(x) !$acc declare create(x)
+
+REAL, POINTER :: ZZ (:) => NULL () 
+create (ZZ)
 
 INTEGER, PARAMETER :: JP = 123
+create (JP)
 
 END MODULE
