@@ -1,6 +1,5 @@
 PROGRAM WRAP_ACTKE
 
-USE YOMDATA
 USE MODI_TOTO
 IMPLICIT NONE
 
@@ -9,14 +8,6 @@ INTEGER :: IBLOCK, NGPBLKS, N, J, JJ
 NGPBLKS = 10
 
 N = 1000
-
-ALLOCATE (ZZ (N))
-
-DO J = 1, N
-  ZZ (J) = REAL (J)
-ENDDO
-
-
 
 !$acc parallel loop gang vector private (IBLOCK,JJ) collapse (2)
 

@@ -1,0 +1,9 @@
+!$acc routine (TITI) seq
+
+SUBROUTINE TITI (JJ)
+
+INTEGER :: JJ
+
+
+END SUBROUTINE
+
