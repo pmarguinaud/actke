@@ -1,0 +1,8 @@
+MODULE YOMDATA
+
+REAL, POINTER :: ZZ (:) => NULL ()
+!$acc declare create(ZZ) 
+
+INTEGER, PARAMETER :: JP = 123
+
+END MODULE
