@@ -174,31 +174,14 @@ REAL(KIND=JPRB), INTENT (   IN) :: ALD
 REAL(KIND=JPRB), INTENT (   IN) :: ECTMIN   
 REAL(KIND=JPRB), INTENT (   IN) :: ALMAVE   
 REAL(KIND=JPRB), INTENT (   IN) :: ARSC1
-REAL(KIND=JPRB),   INTENT(OUT), TARGET :: PSTACK (KLON, KPSTSZ)
+REAL(KIND=JPRB),   INTENT(OUT)   :: PSTACK (KPSTSZ)
 INTEGER(KIND=JPIM),INTENT(IN)    :: KPTRST
 INTEGER(KIND=JPIM),INTENT(IN)    :: KPSTSZ
-INTEGER(KIND=JPIM)               :: IPTRST
 
     
  
 
 !-----------------------------------------------------------------------
-
-REAL(KIND=JPRB), POINTER  :: ZGDZH  (:,:)
-REAL(KIND=JPRB), POINTER  :: ZGDZF   (:,:)
-REAL(KIND=JPRB), POINTER  :: ZDTHETA (:,:)
-REAL(KIND=JPRB), POINTER  :: ZTHETA (:,:)
-REAL(KIND=JPRB), POINTER  :: ZTHETAH (:,:)
-REAL(KIND=JPRB), POINTER  :: ZTHETAP (:,:)
-
-REAL(KIND=JPRB), POINTER  :: ZGZTOPCVP(:)
-REAL(KIND=JPRB), POINTER  :: ZGZBOTCVP(:)
-REAL(KIND=JPRB), POINTER  :: ZGZTOP(:)
-REAL(KIND=JPRB), POINTER  :: ZGZBOT(:)
-REAL(KIND=JPRB), POINTER  :: ZEN(:)
-REAL(KIND=JPRB), POINTER  :: ZPHIH(:,:)
-REAL(KIND=JPRB), POINTER  :: ZGLMDN (:,:)
-REAL(KIND=JPRB), POINTER  :: ZGLMUP (:,:)
 
 ! Tableaux pour les sorties sur listing (1D seulement)
 
@@ -213,8 +196,24 @@ REAL(KIND=JPRB) ::  ZDLDN,  ZDLDN1,  ZDLDN2,   ZQV, &
  & ZUSX,    ZX,       ZZDTHVL, ZZDTHVLP, &
  & ZZTHVL, ZZTHVLP, ZQCS, ZGZLCVPUP, ZGZLCVPDN, &
  & Z2SQRT2, ZLDN,ZLWK0
-REAL(KIND=JPRB), POINTER  ::  ZLWK1(:)
-REAL(KIND=JPRB), POINTER  ::  ZLUP(:)
+
+temp (REAL (KIND=JPRB), ZGDZF,     (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZGDZH,     (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZTHETAH,   (KLON,0:KLEV))
+temp (REAL (KIND=JPRB), ZTHETA,    (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZDTHETA,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZTHETAP,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZEN,       (KLON))
+temp (REAL (KIND=JPRB), ZGZBOT,    (KLON))
+temp (REAL (KIND=JPRB), ZGZTOP,    (KLON))
+temp (REAL (KIND=JPRB), ZGZBOTCVP, (KLON))
+temp (REAL (KIND=JPRB), ZGZTOPCVP, (KLON))
+temp (REAL (KIND=JPRB), ZGLMUP,    (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZGLMDN,    (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZPHIH,     (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZLUP,      (KLON))
+temp (REAL (KIND=JPRB), ZLWK1,     (KLON))
+
 
 !-----------------------------------------------------------------------
 
@@ -227,24 +226,24 @@ REAL(KIND=JPRB), POINTER  ::  ZLUP(:)
 !     ------------------------------------------------------------------
 
 
-IPTRST = KPTRST
+init_stack ()
 
-alloc1 (ZGDZF, 1, KLEV)
-alloc1 (ZGDZH, 1, KLEV)
-alloc1 (ZTHETAH, 0, KLEV)
-alloc1 (ZTHETA, 1, KLEV)
-alloc1 (ZDTHETA, 1, KLEV)
-alloc1 (ZTHETAP, 1, KLEV)
-alloc0 (ZEN)
-alloc0 (ZGZBOT)
-alloc0 (ZGZTOP)
-alloc0 (ZGZBOTCVP)
-alloc0 (ZGZTOPCVP)
-alloc1 (ZGLMUP, 1, KLEV)
-alloc1 (ZGLMDN, 1, KLEV)
-alloc1 (ZPHIH, 1, KLEV)
-alloc0 (ZLUP)
-alloc0 (ZLWK1)
+alloc (ZGDZF)
+alloc (ZGDZH)
+alloc (ZTHETAH)
+alloc (ZTHETA)
+alloc (ZDTHETA)
+alloc (ZTHETAP)
+alloc (ZEN)
+alloc (ZGZBOT)
+alloc (ZGZTOP)
+alloc (ZGZBOTCVP)
+alloc (ZGZTOPCVP)
+alloc (ZGLMUP)
+alloc (ZGLMDN)
+alloc (ZPHIH)
+alloc (ZLUP)
+alloc (ZLWK1)
 
 ZEPSX    = ECTMIN
 

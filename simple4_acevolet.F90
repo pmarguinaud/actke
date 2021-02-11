@@ -154,26 +154,23 @@ REAL(KIND=JPRB), INTENT (   IN) :: ALPHAE
 REAL(KIND=JPRB), INTENT (   IN) :: ADISI  
 REAL(KIND=JPRB), INTENT (   IN) :: ECTMAX 
 REAL(KIND=JPRB), INTENT (   IN) :: TSPHY
-REAL(KIND=JPRB),   INTENT(OUT), TARGET :: PSTACK (KLON, KPSTSZ)
+REAL(KIND=JPRB),   INTENT(OUT)   :: PSTACK (KPSTSZ)
 INTEGER(KIND=JPIM),INTENT(IN)    :: KPTRST
 INTEGER(KIND=JPIM),INTENT(IN)    :: KPSTSZ
-INTEGER(KIND=JPIM)               :: IPTRST
 
   
  
 
 !-----------------------------------------------------------------------
 
-REAL(KIND=JPRB), POINTER  ::ZANKP1(:)
-
-REAL(KIND=JPRB), POINTER  :: ZCOR(:)
-REAL(KIND=JPRB), POINTER  :: ZGKEF (:,:)
-REAL(KIND=JPRB), POINTER  :: ZDET (:,:)
-REAL(KIND=JPRB), POINTER  :: ZGKU(:,:)
-REAL(KIND=JPRB), POINTER  :: ZPA(:,:)
-REAL(KIND=JPRB), POINTER  :: ZE(:,:)
-REAL(KIND=JPRB), POINTER  :: ZA(:,:)
-
+temp (REAL (KIND=JPRB), ZANKP1, (KLON))
+temp (REAL (KIND=JPRB), ZA,     (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZE,     (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZPA,    (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZGKU,   (KLON,0:KLEV))
+temp (REAL (KIND=JPRB), ZDET,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZGKEF,  (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZCOR,   (KLON))
 
 INTEGER(KIND=JPIM) :: JLEV, JLON
 
@@ -198,16 +195,16 @@ REAL(KIND=JPRB) :: ZEPS
 !          IL RESTE : ZGKU = RG * KU
 !          - - - - - - - - - - - - - - - - - - - -
 
-IPTRST = KPTRST
+init_stack ()
 
-alloc0 (ZANKP1)
-alloc1 (ZA, 1, KLEV)
-alloc1 (ZE, 1, KLEV)
-alloc1 (ZPA, 1, KLEV)
-alloc1 (ZGKU, 0, KLEV)
-alloc1 (ZDET, 1, KLEV)
-alloc1 (ZGKEF, 1, KLEV)
-alloc0 (ZCOR)
+alloc (ZANKP1)
+alloc (ZA)
+alloc (ZE)
+alloc (ZPA)
+alloc (ZGKU)
+alloc (ZDET)
+alloc (ZGKEF)
+alloc (ZCOR)
 
 ZEPS=1.E-14
 ZUSGDT=1.0_JPRB/(RG*TSPHY)

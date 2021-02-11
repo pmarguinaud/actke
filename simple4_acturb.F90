@@ -253,28 +253,24 @@ REAL(KIND=JPRB), INTENT (   IN) :: EDB
 REAL(KIND=JPRB), INTENT (   IN) :: EDC      
 REAL(KIND=JPRB), INTENT (   IN) :: EDD      
 REAL(KIND=JPRB), INTENT (   IN) :: USURIC
-REAL(KIND=JPRB),   INTENT(OUT), TARGET :: PSTACK (KLON, KPSTSZ)
+REAL(KIND=JPRB),   INTENT(OUT)   :: PSTACK (KPSTSZ)
 INTEGER(KIND=JPIM),INTENT(IN)    :: KPTRST
 INTEGER(KIND=JPIM),INTENT(IN)    :: KPSTSZ
-INTEGER(KIND=JPIM)               :: IPTRST
-
-   
  
 
 !-----------------------------------------------------------------------
 
-REAL(KIND=JPRB), POINTER  :: ZRS(:)
-REAL(KIND=JPRB), POINTER  :: ZSTAB (:)
-REAL(KIND=JPRB), POINTER  :: ZRTV   (:,:)
-REAL(KIND=JPRB), POINTER  :: ZZ     (:,:)
-REAL(KIND=JPRB), POINTER  :: ZGDZF   (:,:)
-REAL(KIND=JPRB), POINTER  :: ZTHETA  (:,:)
-REAL(KIND=JPRB), POINTER  :: ZLOCPEXF(:,:)
-REAL(KIND=JPRB), POINTER  :: ZTHETALF(:,:)
-REAL(KIND=JPRB), POINTER  :: ZTHETAVL(:,:)
-
-REAL(KIND=JPRB), POINTER  :: ZGKUH  (:,:)
-REAL(KIND=JPRB), POINTER  :: ZGKTH  (:,:)
+temp (REAL (KIND=JPRB), ZSTAB,    (KLON))
+temp (REAL (KIND=JPRB), ZRS,      (KLON))
+temp (REAL (KIND=JPRB), ZRTV,     (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZGDZF,    (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZZ,       (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZTHETA,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZTHETALF, (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZLOCPEXF, (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZTHETAVL, (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZGKTH,    (KLON,0:KLEV))
+temp (REAL (KIND=JPRB), ZGKUH,    (KLON,0:KLEV))
 
 !- - - - - - - - - - - - - - - -
 ! For the Top-PBL Entrainment :
@@ -381,19 +377,19 @@ DATA ZSRC1D /&
 !     ZLMIN    : VALEUR MINIMALE POUR ZLMUP ET ZLMDN
 
 
-IPTRST = KPTRST
+init_stack ()
 
-alloc0 (ZSTAB)
-alloc0 (ZRS)
-alloc1 (ZRTV, 1, KLEV)
-alloc1 (ZGDZF, 1, KLEV)
-alloc1 (ZZ, 1, KLEV)
-alloc1 (ZTHETA, 1, KLEV)
-alloc1 (ZTHETALF, 1, KLEV)
-alloc1 (ZLOCPEXF, 1, KLEV)
-alloc1 (ZTHETAVL, 1, KLEV)
-alloc1 (ZGKTH, 0, KLEV)
-alloc1 (ZGKUH, 0, KLEV)
+alloc (ZSTAB)
+alloc (ZRS)
+alloc (ZRTV)
+alloc (ZGDZF)
+alloc (ZZ)
+alloc (ZTHETA)
+alloc (ZTHETALF)
+alloc (ZLOCPEXF)
+alloc (ZTHETAVL)
+alloc (ZGKTH)
+alloc (ZGKUH)
 
 ZCE1     = UDECT
 ZPHMAX   = UPRETMIN

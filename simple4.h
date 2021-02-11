@@ -6,8 +6,16 @@
 !$acc routine(SIMPLE4_FL2HL) seq
 !$acc routine(SIMPLE4_HL2FL) seq
 
-#define alloc0(a) a => PSTACK (1:KLON, IPTRST); IPTRST = IPTRST + 1
-#define alloc1(a, l1, u1) a (1:,l1:) => PSTACK (1:KLON, IPTRST:IPTRST+((u1)-(l1))); IPTRST=IPTRST+(u1)-(l1)+1
+
+#ifdef USE_STACK
+#define temp(t, n, s) t, DIMENSION s :: n; POINTER (IP_##n##_, n)
+#define init_stack() INTEGER :: IPTRST; IPTRST = KPTRST
+#define alloc(n) IP_##n##_ = LOC (PSTACK (IPTRST)); IPTRST = IPTRST + SIZE (n); IF (IPTRST > KPSTSZ) STOP "STACK OF: "//__FILE__
+#else
+#define temp(t, n, s) t :: n s
+#define alloc(n)
+#define init_stack() INTEGER :: IPTRST
+#endif
 
 #define DO_JLON 
 #define ENDDO_JLON 

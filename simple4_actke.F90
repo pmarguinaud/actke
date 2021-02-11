@@ -230,10 +230,9 @@ REAL(KIND=JPRB), INTENT (   IN) :: RG
 REAL(KIND=JPRB), INTENT (   IN) :: RPRTH  
 REAL(KIND=JPRB), INTENT (   IN) :: ECTMIN 
 REAL(KIND=JPRB), INTENT (   IN) :: TSPHY  
-REAL(KIND=JPRB),   INTENT(OUT), TARGET :: PSTACK (KLON, KPSTSZ)
+REAL(KIND=JPRB),   INTENT(OUT)   :: PSTACK (KPSTSZ)
 INTEGER(KIND=JPIM),INTENT(IN)    :: KPTRST
 INTEGER(KIND=JPIM),INTENT(IN)    :: KPSTSZ
-INTEGER(KIND=JPIM)               :: IPTRST
  
 
 
@@ -242,22 +241,22 @@ INTEGER(KIND=JPIM)               :: IPTRST
 INTEGER(KIND=JPIM) :: JLEV, JLON
 ! Attention tableau pour acturb, acbl89, et acevolet de dim KLEV mais sur 
 ! les 1/2 niveaux
-REAL(KIND=JPRB), POINTER  :: ZPHI3(:,:)
-REAL(KIND=JPRB), POINTER  :: ZLMECT(:,:)
-REAL(KIND=JPRB), POINTER  :: ZUSLE  (:,:)
-REAL(KIND=JPRB), POINTER  :: ZPRDY(:,:)
-REAL(KIND=JPRB), POINTER  :: ZPRODTH(:,:)
-REAL(KIND=JPRB), POINTER  :: ZDISS(:,:)
-REAL(KIND=JPRB), POINTER  :: ZDIFF(:,:)
-REAL(KIND=JPRB), POINTER  :: ZECT(:,:)
-REAL(KIND=JPRB), POINTER  :: ZDELPSG(:,:)
-!--------------------------------------------------------------------------
-REAL(KIND=JPRB), POINTER  :: ZDET(:,:)
-REAL(KIND=JPRB), POINTER  :: ZECTCLS(:)
-REAL(KIND=JPRB), POINTER  :: ZKCLS(:)
-REAL(KIND=JPRB), POINTER  :: ZECT1(:,:)
 ! For DDH and MUSC and in future in CPTEND_NEW ???
-REAL(KIND=JPRB), POINTER  :: ZEDR(:,:)
+
+temp (REAL (KIND=JPRB), ZUSLE,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZLMECT,  (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZPHI3,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZPRODTH, (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZPRDY,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZDIFF,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZDISS,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZECT,    (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZECT1,   (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZDELPSG, (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZDET,    (KLON,KLEV))
+temp (REAL (KIND=JPRB), ZKCLS,   (KLON))
+temp (REAL (KIND=JPRB), ZECTCLS, (KLON))
+temp (REAL (KIND=JPRB), ZEDR,    (KLON,KLEV))
 
 
 !-----------------------------------------------------------------------
@@ -275,22 +274,22 @@ REAL(KIND=JPRB), POINTER  :: ZEDR(:,:)
 
 !-----------------------------------------------------------------------
 
-IPTRST = KPTRST
+init_stack ()
 
-alloc1 (ZUSLE, 1, KLEV)
-alloc1 (ZLMECT, 1, KLEV)
-alloc1 (ZPHI3, 1, KLEV)
-alloc1 (ZPRODTH, 1, KLEV)
-alloc1 (ZPRDY, 1, KLEV)
-alloc1 (ZDIFF, 1, KLEV)
-alloc1 (ZDISS, 1, KLEV)
-alloc1 (ZECT, 1, KLEV)
-alloc1 (ZECT1, 1, KLEV)
-alloc1 (ZDELPSG, 1, KLEV)
-alloc1 (ZDET, 1, KLEV)
-alloc0 (ZKCLS)
-alloc0 (ZECTCLS)
-alloc1 (ZEDR, 1, KLEV)
+alloc (ZUSLE)
+alloc (ZLMECT)
+alloc (ZPHI3)
+alloc (ZPRODTH)
+alloc (ZPRDY)
+alloc (ZDIFF)
+alloc (ZDISS)
+alloc (ZECT)
+alloc (ZECT1)
+alloc (ZDELPSG)
+alloc (ZDET)
+alloc (ZKCLS)
+alloc (ZECTCLS)
+alloc (ZEDR)
 
 DO JLON = KIDIA, KFDIA
   PEDR(JLON,:)    =0.0_JPRB
