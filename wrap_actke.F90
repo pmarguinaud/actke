@@ -5,10 +5,11 @@ USE MODI_TOTO
 IMPLICIT NONE
 
 INTEGER :: IBLOCK, NGPBLKS, N, J, JJ
+REAL :: WW
 
 NGPBLKS = 10
 
-N = 1000
+N = 10
 
 ALLOCATE (ZZ (N))
 
@@ -16,9 +17,18 @@ DO J = 1, N
   ZZ (J) = REAL (J)
 ENDDO
 
+WW = 123
+
+!$acc parallel
+YY = WW
+!$acc end parallel
+
+YY = 456
+
+!$acc update device (YY)
 
 
-!$acc parallel loop gang vector private (IBLOCK,JJ) collapse (2)
+!$acc parallel loop gang vector private (IBLOCK,JJ) collapse (2) 
 
 DO IBLOCK = 1, NGPBLKS
 
@@ -31,6 +41,7 @@ DO IBLOCK = 1, NGPBLKS
 ENDDO
 
 !$acc end parallel loop 
+
 
 
 
