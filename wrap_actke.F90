@@ -27,6 +27,8 @@ YY = 456
 
 !$acc update device (YY)
 
+CALL SET2713 (YY)
+
 
 !$acc parallel loop gang vector private (IBLOCK,JJ) collapse (2) 
 
@@ -42,7 +44,18 @@ ENDDO
 
 !$acc end parallel loop 
 
+CONTAINS 
 
+SUBROUTINE SET2713 (X)
 
+USE OPENACC
+
+REAL :: X
+
+X = 2713.
+
+!$acc update device (X) 
+
+END SUBROUTINE
 
 END PROGRAM WRAP_ACTKE
