@@ -61,39 +61,39 @@ sub preProcessIfNewer
       my $d = &Fxtran::fxtran (location => $f1);
       &saveToFile ($d, "tmp/$f2");
 
-      &Inline::inlineContainedSubroutines ($d);
-      &saveToFile ($d, "tmp/inlineContainedSubroutines/$f2");
+#     &Inline::inlineContainedSubroutines ($d);
+#     &saveToFile ($d, "tmp/inlineContainedSubroutines/$f2");
 
-      &Associate::resolveAssociates ($d);
-      &saveToFile ($d, "tmp/resolveAssociates/$f2");
+#     &Associate::resolveAssociates ($d);
+#     &saveToFile ($d, "tmp/resolveAssociates/$f2");
 
       unless ($opts{'single-block'})
         {
-          &Blocks::addBlocks ($d);
-          &saveToFile ($d, "tmp/addBlocks/$f2");
+#         &Blocks::addBlocks ($d);
+#         &saveToFile ($d, "tmp/addBlocks/$f2");
         }
  
       if ($opts{'kernels'})
         {
-          &Blocks::exchangeJlonJlevLoops ($d);
-          &Blocks::addKernelDirectives ($d);
+#         &Blocks::exchangeJlonJlevLoops ($d);
+#         &Blocks::addKernelDirectives ($d);
         }
       else
         {
           if ($opts{'single-block'})
             {
-              &SingleBlock::hoistJlonLoops ($d);
-              &SingleBlock::addParallelLoopDirectives ($d);
+#             &SingleBlock::hoistJlonLoops ($d);
+#             &SingleBlock::addParallelLoopDirectives ($d);
             }
           else
             {
-              &Blocks::addParallelLoopDirectives ($d);
+#             &Blocks::addParallelLoopDirectives ($d);
             }
         }
 
 
-      &Blocks::addDataDirectives ($d);
-      &saveToFile ($d, "tmp/addDirectives/$f2");
+#     &Blocks::addDataDirectives ($d);
+#     &saveToFile ($d, "tmp/addDirectives/$f2");
 
       'FileHandle'->new (">$f2")->print ($d->textContent ());
 
@@ -102,7 +102,7 @@ sub preProcessIfNewer
 }
 
 my @opts_f = qw (update compile kernels single-block);
-my @opts_s = qw (arch);
+my @opts_s = qw (arch bin);
 
 &GetOptions
 (
@@ -110,8 +110,8 @@ my @opts_s = qw (arch);
   map ({ ("$_=s", \$opts{$_}) } @opts_s),
 );
 
-my @compute = map { &basename ($_) } <compute/*.F90>;
-my @support = map { &basename ($_) } <support/*.F90>;
+my @compute = map { &basename ($_) } (<compute/*.F90>, <compute/*.h>);
+my @support = map { &basename ($_) } (<support/*.F90>, <support/*.h>);
 
 &mkpath ("compile.$opts{arch}");
 
@@ -136,7 +136,7 @@ if ($opts{update})
 
 if ($opts{compile})
   {
-    system ('make -j4 main.x') and die;
+    system ("make -j4 $opts{bin}") and die;
   }
 
 

@@ -185,7 +185,7 @@ REAL :: TIME
 INTEGER :: ZV1 (8), ZV0 (8), IC
 INTEGER, PARAMETER :: NTIMES = 1
 
-#include "run_simple4_actke.intfb.h"
+#include "simple4_actke.intfb.h"
 
 CALL INITOPTIONS ()
 CALL GETOPTION ("--case", CLCASE, MND = .TRUE.)
@@ -373,25 +373,23 @@ PRINT *, "-- RUN"
 
 DO IC = 1, NTIMES
 
-DO IBLOCK = 1, NGPBLKS
+DO IBLOCK = 1, ICOUNT1
 
-    CALL SIMPLE4_ACTKE (KIDIA, KFDIA, KLON, KTDIAT, KTDIAN, KLEV, PAPHI (:,:,       &
-    & IBLOCK), PAPHIF (:,:, IBLOCK), PAPRS (:,:, IBLOCK), PAPRSF (:,:, IBLOCK),     &
-    & PDELP (:,:, IBLOCK), PR (:,:, IBLOCK), PT (:,:, IBLOCK), PU (:,:, IBLOCK),    &
-    & PV (:,:, IBLOCK), PQ (:,:, IBLOCK), PLSCPE (:,:, IBLOCK), PCD (:, IBLOCK),    &
-    & PCH (:, IBLOCK), PGZ0 (:, IBLOCK), PTS (:, IBLOCK), PQS (:, IBLOCK), PQICE (  &
-    & :,:, IBLOCK), PQLI (:,:, IBLOCK), PECT (:,:, IBLOCK), PPRODTH (:,:, IBLOCK),  &
-    & PNLAB (:,:, IBLOCK), PNLABCVP (:,:, IBLOCK), PKTROV (:,:, IBLOCK), PKUROV (:, &
-    & :, IBLOCK), PXTROV (:,:, IBLOCK), PXUROV (:,:, IBLOCK), PNBVNO (:,:, IBLOCK), &
-    & PNEBS (:,:, IBLOCK), PQCS (:,:, IBLOCK), PNEBS0 (:,:, IBLOCK), PQCS0 (:,:,    &
-    & IBLOCK), PCOEFN (:,:, IBLOCK), PFECT (:,:, IBLOCK), PECT1 (:,:, IBLOCK),      &
-    & PTPRDY (:,:, IBLOCK), PEDR (:,:, IBLOCK), RG, RPRTH, ECTMIN, TSPHY, ACBRPHIM, &
+    CALL SIMPLE4_ACTKE (KIDIA, KFDIA, KLON, KTDIAT, KTDIAN, KLEV, PAPHI_ALL (:,:,                        &
+    & IBLOCK), PAPHIF_ALL (:,:, IBLOCK), PAPRS_ALL (:,:, IBLOCK), PAPRSF_ALL (:,:, IBLOCK),              &
+    & PDELP_ALL (:,:, IBLOCK), PR_ALL (:,:, IBLOCK), PT_ALL (:,:, IBLOCK), PU_ALL (:,:, IBLOCK),         &
+    & PV_ALL (:,:, IBLOCK), PQ_ALL (:,:, IBLOCK), PLSCPE_ALL (:,:, IBLOCK), PCD_ALL (:, IBLOCK),         &
+    & PCH_ALL (:, IBLOCK), PGZ0_ALL (:, IBLOCK), PTS_ALL (:, IBLOCK), PQS_ALL (:, IBLOCK), PQICE_ALL (   &
+    & :,:, IBLOCK), PQLI_ALL (:,:, IBLOCK), PECT_ALL (:,:, IBLOCK), PPRODTH_ALL (:,:, IBLOCK),           &
+    & PNLAB_ALL (:,:, IBLOCK), PNLABCVP_ALL (:,:, IBLOCK), PKTROV_ALL (:,:, IBLOCK), PKUROV_ALL (:,      &
+    & :, IBLOCK), PXTROV_ALL (:,:, IBLOCK), PXUROV_ALL (:,:, IBLOCK), PNBVNO_ALL (:,:, IBLOCK),          &
+    & PNEBS_ALL (:,:, IBLOCK), PQCS_ALL (:,:, IBLOCK), PNEBS0_ALL (:,:, IBLOCK), PQCS0_ALL (:,:,         &
+    & IBLOCK), PCOEFN_ALL (:,:, IBLOCK), PFECT_ALL (:,:, IBLOCK), PECT1_ALL (:,:, IBLOCK),               &
+    & PTPRDY_ALL (:,:, IBLOCK), PEDR_ALL (:,:, IBLOCK), RG, RPRTH, ECTMIN, TSPHY, ACBRPHIM,              &
     & ADISE, ADISI, AKN, ALD, ALMAV, ALMAVE, ALMAVX, ALPHAE, ALPHAT, ARSB2, ARSC1,  &
     & ECTMAX, EDB, EDC, EDD, RALPD, RALPS, RALPW, RATM, RBETD, RBETS, RBETW, RCPV,  &
     & RCS, RCW, RD, RDT, RETV, RGAMD, RGAMS, RGAMW, RKAPPA, RLSTT, RLVTT, RTT, RV,  &
     & UDECT, UPRETMAX, UPRETMIN, USHEARM, USURIC, VKARMN)
-
-  ENDDO
 
 ENDDO
 
