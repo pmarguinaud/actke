@@ -17,7 +17,8 @@ git=/gpfsstore/rech/jau/ufh62jk/install/git-2.32.0/bin/git
 
 echo "============="
 
-nsys profile -f true -o openacc-stack-pointer.qdrep ./wrap_actke.x --case t1198 # --diff # --diff-block-list 1 10 100
+#nsys profile -f true -o openacc-stack-pointer.qdrep ./wrap_actke.x --case t1198 # --diff # --diff-block-list 1 10 100
+./wrap_actke.x --case t1198 # --diff --diff-block-list 1 10 100
 
 exit
 

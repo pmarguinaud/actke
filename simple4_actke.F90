@@ -158,11 +158,11 @@ REAL(KIND=JPRB)   ,INTENT(IN)    :: PU(KLON,KLEV)
 REAL(KIND=JPRB)   ,INTENT(IN)    :: PV(KLON,KLEV) 
 REAL(KIND=JPRB)   ,INTENT(IN)    :: PQ(KLON,KLEV) 
 REAL(KIND=JPRB)   ,INTENT(IN)    :: PLSCPE(KLON,KLEV) 
-REAL(KIND=JPRB)   ,INTENT(IN)    :: PCD(KLON) 
-REAL(KIND=JPRB)   ,INTENT(IN)    :: PCH(KLON) 
-REAL(KIND=JPRB)   ,INTENT(IN)    :: PGZ0(KLON) 
-REAL(KIND=JPRB)   ,INTENT(IN)    :: PTS(KLON) 
-REAL(KIND=JPRB)   ,INTENT(IN)    :: PQS(KLON) 
+REAL(KIND=JPRB)   ,INTENT(IN)    :: PCD 
+REAL(KIND=JPRB)   ,INTENT(IN)    :: PCH 
+REAL(KIND=JPRB)   ,INTENT(IN)    :: PGZ0 
+REAL(KIND=JPRB)   ,INTENT(IN)    :: PTS 
+REAL(KIND=JPRB)   ,INTENT(IN)    :: PQS 
 REAL(KIND=JPRB)   ,INTENT(INOUT) :: PQICE(KLON,KLEV) 
 REAL(KIND=JPRB)   ,INTENT(INOUT) :: PQLI(KLON,KLEV) 
 REAL(KIND=JPRB)   ,INTENT(INOUT) :: PECT(KLON,KLEV) 
@@ -254,9 +254,9 @@ temp (REAL (KIND=JPRB), ZECT,    (KLON,KLEV))
 temp (REAL (KIND=JPRB), ZECT1,   (KLON,KLEV))
 temp (REAL (KIND=JPRB), ZDELPSG, (KLON,KLEV))
 temp (REAL (KIND=JPRB), ZDET,    (KLON,KLEV))
-temp (REAL (KIND=JPRB), ZKCLS,   (KLON))
-temp (REAL (KIND=JPRB), ZECTCLS, (KLON))
 temp (REAL (KIND=JPRB), ZEDR,    (KLON,KLEV))
+REAL (KIND=JPRB) :: ZKCLS
+REAL (KIND=JPRB) :: ZECTCLS
 
 
 !-----------------------------------------------------------------------
@@ -287,22 +287,22 @@ alloc (ZECT)
 alloc (ZECT1)
 alloc (ZDELPSG)
 alloc (ZDET)
-alloc (ZKCLS)
-alloc (ZECTCLS)
 alloc (ZEDR)
 
-DO JLON = KIDIA, KFDIA
+JLON = KIDIA
+
+
   PEDR(JLON,:)    =0.0_JPRB
-ENDDO
-DO JLON = KIDIA, KFDIA
+
+
   PTPRDY(JLON,:)  =0.0_JPRB
-ENDDO
-DO JLON = KIDIA, KFDIA
+
+
   ZDET(JLON,:)=0.0_JPRB
-ENDDO
-DO JLON = KIDIA, KFDIA
+
+
   ZDELPSG(JLON,:)=0.0_JPRB
-ENDDO
+
 !     ------------------------------------------------------------------
 ! 0.   Passage eventuel sur les demi-niveaux dans le cas ou LECTFL=.TRUE.
 !      en effet en sortie d'ACTKE on a passe l'ECT sur les niveaux pleins pour 
@@ -321,23 +321,23 @@ CALL SIMPLE4_FL2HL ( KIDIA, KFDIA, KLON, 1, KLEV, PAPRS, PAPRSF, PECT, ZECT, 1, 
 !- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 DO JLEV = 1, KLEV
-  DO JLON = KIDIA,KFDIA
+  
     ZUSLE  (JLON,JLEV) = 0.0_JPRB
     ZLMECT (JLON,JLEV) = 0.0_JPRB
     ZPHI3  (JLON,JLEV) = 0.0_JPRB
-  ENDDO
+  
 ENDDO
 
-DO JLON = KIDIA,KFDIA
-  ZECTCLS (JLON) = 0.0_JPRB
-  ZKCLS   (JLON) = 0.0_JPRB
-ENDDO
+
+  ZECTCLS  = 0.0_JPRB
+  ZKCLS    = 0.0_JPRB
+
 
 DO JLEV=KTDIAT,KLEV
-  DO JLON=KIDIA,KFDIA
+  
     ZECT(JLON,JLEV) = MAX( ECTMIN, ZECT(JLON,JLEV) )
     ZDELPSG(JLON,JLEV)=PDELP(JLON,JLEV)/RG
-  ENDDO
+  
 ENDDO
 !- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ! 1.1   Calculs : des longueurs de melange (ZLMECT, ZUSLE)
@@ -361,25 +361,25 @@ CALL SIMPLE4_ACTURB   ( KIDIA, KFDIA, KLON, KTDIAT, KTDIAN, KLEV,  PAPHI, PAPHIF
 & UPRETMIN, VKARMN, UPRETMAX, ARSB2, ECTMIN, AKN, ALPHAT, ALMAV, UDECT, USHEARM,  &
 & EDB, EDC, EDD, USURIC, KPSTSZ, IPTRST, PSTACK )
 
-DO JLON = KIDIA, KFDIA
-  PNEBS0(JLON,:)=PNEBS(JLON,:)
-ENDDO
-DO JLON = KIDIA, KFDIA
-  PQCS0(JLON,:)=PQCS(JLON,:)
-ENDDO
 
-DO JLON = KIDIA, KFDIA
+  PNEBS0(JLON,:)=PNEBS(JLON,:)
+
+
+  PQCS0(JLON,:)=PQCS(JLON,:)
+
+
+
   PXTROV(JLON,:)=1.0_JPRB
-ENDDO
-DO JLON = KIDIA, KFDIA
+
+
   PXUROV(JLON,:)=1.0_JPRB
-ENDDO
+
 
 DO JLEV = KTDIAT, KLEV
-   DO JLON = KIDIA,KFDIA
+   
       ZPRODTH(JLON,JLEV)=ZPRODTH(JLON,JLEV)+ &
           &              RPRTH*MAX(0._JPRB,PPRODTH(JLON,JLEV))
-   ENDDO
+   
 ENDDO
 !- - - - - - - - - - - - - - - - - - - - - - - - - -
 ! 1.2 Calcul d'evolution de l'ECT
@@ -392,15 +392,15 @@ CALL SIMPLE4_ACEVOLET ( KIDIA, KFDIA, KLON, KTDIAT, KTDIAN, KLEV,   PAPHI,      
 !     ------------------------------------------------------------------
 ! 2.   Passage eventuel sur les niveaux pleins dans le cas ou LECTFL=.TRUE.
 !      pour l'advecter.
-DO JLON = KIDIA, KFDIA
+
   PECT1(JLON,:)=ECTMIN
-ENDDO
+
 ! Calcul de l'EDR avec protection de la valeur min de L a 0.01
 DO JLEV = KTDIAT, KLEV
-   DO JLON = KIDIA,KFDIA
+   
       ZEDR(JLON,JLEV)= MIN(100._JPRB,ZUSLE(JLON,JLEV)*RG)* &
            & (0.5_JPRB*(ZECT1(JLON,JLEV)+PECT(JLON,JLEV)))**1.5
-   ENDDO
+   
 ENDDO
 
 ! Passage de ZECT1 sur les niveaux pleins pour calculer la tendance sur les FL
@@ -408,9 +408,9 @@ ENDDO
 CALL SIMPLE4_HL2FL ( KIDIA, KFDIA, KLON, 1, KLEV,  PAPRS, PAPRSF, ZECT1, 1, &
 & PECT1, 'HL2FL  ', KPSTSZ, IPTRST, PSTACK) 
 DO JLEV = KTDIAT, KLEV
-   DO JLON = KIDIA,KFDIA
+   
       ZDET(JLON,JLEV)=(PECT1(JLON,JLEV)-PECT(JLON,JLEV))/TSPHY
-   ENDDO
+   
 ENDDO
 ! Production dynamique
 CALL SIMPLE4_HL2FL ( KIDIA, KFDIA, KLON, 1, KLEV,  PAPRS, PAPRSF, ZPRDY, 1, &
@@ -424,10 +424,10 @@ CALL SIMPLE4_HL2FL ( KIDIA, KFDIA, KLON, 1, KLEV,  PAPRS, PAPRSF, ZEDR, 1, PEDR,
 !         LES FLUX SONT SUPPOSES NULS AU PREMIER NIVEAU (KTDIA) DE
 !         CALCUL (FLUX AU NIVEAU DU MODELE).
 DO JLEV = KTDIAT, KLEV
-   DO JLON = KIDIA,KFDIA
+   
       PFECT(JLON,JLEV)=PFECT(JLON,JLEV-1)- ZDET(JLON,JLEV) &
            & * ZDELPSG(JLON,JLEV)
-   ENDDO
+   
 ENDDO
 !-----------------------------------------------------------------------
 

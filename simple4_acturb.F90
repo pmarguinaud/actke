@@ -202,9 +202,9 @@ REAL(KIND=JPRB)   ,INTENT(INOUT) :: PLMECT(KLON,KLEV)
 REAL(KIND=JPRB)   ,INTENT(IN)    :: PPHI3(KLON,KLEV) 
  
  
-REAL(KIND=JPRB)   ,INTENT(IN)    :: PGZ0(KLON) 
-REAL(KIND=JPRB)   ,INTENT(IN)    :: PTS(KLON) 
-REAL(KIND=JPRB)   ,INTENT(IN)    :: PQS(KLON) 
+REAL(KIND=JPRB)   ,INTENT(IN)    :: PGZ0 
+REAL(KIND=JPRB)   ,INTENT(IN)    :: PTS 
+REAL(KIND=JPRB)   ,INTENT(IN)    :: PQS 
 REAL(KIND=JPRB)   ,INTENT(INOUT) :: PQICE(KLON,KLEV) 
 REAL(KIND=JPRB)   ,INTENT(INOUT) :: PQLI(KLON,KLEV) 
 REAL(KIND=JPRB)   ,INTENT(OUT)   :: PKTROV(KLON,0:KLEV) 
@@ -214,8 +214,8 @@ REAL(KIND=JPRB)   ,INTENT(OUT)   :: PPRODTH(KLON,KLEV)
 REAL(KIND=JPRB)   ,INTENT(OUT)   :: PNEBS(KLON,KLEV) 
 REAL(KIND=JPRB)   ,INTENT(OUT)   :: PQCS(KLON,KLEV) 
 REAL(KIND=JPRB)   ,INTENT(OUT)   :: PL3F2(KLON,KLEV) 
-REAL(KIND=JPRB)   ,INTENT(OUT)   :: PGKCLS(KLON) 
-REAL(KIND=JPRB)   ,INTENT(OUT)   :: PECTCLS(KLON)
+REAL(KIND=JPRB)   ,INTENT(OUT)   :: PGKCLS 
+REAL(KIND=JPRB)   ,INTENT(OUT)   :: PECTCLS
 
 REAL(KIND=JPRB), INTENT (   IN) :: RG       
 REAL(KIND=JPRB), INTENT (   IN) :: RV       
@@ -260,8 +260,8 @@ INTEGER(KIND=JPIM),INTENT(IN)    :: KPSTSZ
 
 !-----------------------------------------------------------------------
 
-temp (REAL (KIND=JPRB), ZSTAB,    (KLON))
-temp (REAL (KIND=JPRB), ZRS,      (KLON))
+REAL (KIND=JPRB) :: ZSTAB
+REAL (KIND=JPRB) :: ZRS
 temp (REAL (KIND=JPRB), ZRTV,     (KLON,KLEV))
 temp (REAL (KIND=JPRB), ZGDZF,    (KLON,KLEV))
 temp (REAL (KIND=JPRB), ZZ,       (KLON,KLEV))
@@ -379,8 +379,6 @@ DATA ZSRC1D /&
 
 init_stack ()
 
-alloc (ZSTAB)
-alloc (ZRS)
 alloc (ZRTV)
 alloc (ZGDZF)
 alloc (ZZ)
@@ -399,15 +397,17 @@ IHCLPMIN = KLEV-2
 ZEPS     = ECTMIN
 ZEPS1    = USHEARM
 
-DO JLON = KIDIA, KFDIA
+JLON = KIDIA
+
+
   PKTROV(JLON,:)=0.0_JPRB
-ENDDO
-DO JLON = KIDIA, KFDIA
+
+
   PKUROV(JLON,:)=0.0_JPRB
-ENDDO
-DO JLON = KIDIA, KFDIA
+
+
   PPRODTH(JLON,:)=0.0_JPRB
-ENDDO
+
 
 ! ZSTAB      : INDICE DE STABILITE A LA SURFACE (1 SI STABLE, 0 SINON).
 ! ZRS        : CONSTANTE DES GAZ PARFAITS EN SURFACE.
@@ -415,17 +415,17 @@ ENDDO
 ! Compute the value for ZRS, ZSTAB (from ACHMT usually...
 ! but not available if LMSE and no call to ACHMT)
 !- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-DO JLON=KIDIA,KFDIA
-  ZRS  (JLON) = RD + (RV-RD)*PQS(JLON)
+
+  ZRS   = RD + (RV-RD)*PQS
   ZDPHI0      = PAPHIF(JLON,KLEV)-PAPHI(JLON,KLEV)
   ZRTI        = 2.0_JPRB/(PR(JLON,KLEV)*PT(JLON,KLEV) &
              &            +RKAPPA*ZDPHI0 &
-             &            +ZRS(JLON)*PTS(JLON))  
+             &            +ZRS*PTS)  
   ZSTA        = ZDPHI0*( PR(JLON,KLEV)*PT(JLON,KLEV) &
              &          +RKAPPA*ZDPHI0 &
-             &          -ZRS(JLON)*PTS(JLON) )*ZRTI
-  ZSTAB(JLON) = MAX(0.0_JPRB,SIGN(1.0_JPRB,ZSTA))
-ENDDO
+             &          -ZRS*PTS )*ZRTI
+  ZSTAB = MAX(0.0_JPRB,SIGN(1.0_JPRB,ZSTA))
+
 
 !   CONSTANTES DE SECURITE ET DE PARAMETRISATION. (Schema stat.)
 !   SECURITY AND PARAMETRIZATION CONSTANTS.       (Stat. Scheme)
@@ -452,15 +452,15 @@ ZGAUSS=1.0_JPRB/(2.0_JPRB*RDT**2)
 !   WORK ARRAYS ONCE FOR ALL
 
 DO JLEV=KTDIAN,KLEV
-  DO JLON=KIDIA,KFDIA
+  
     ZZ(JLON,JLEV)    = PAPHIF(JLON,JLEV)  -PAPHI (JLON,KLEV)
     ZRTV (JLON,JLEV) = PR(JLON,JLEV)*PT(JLON,JLEV)
-  ENDDO ! JLON
+   ! JLON
 ENDDO   ! JLEV
 DO JLEV=KTDIAN+1,KLEV
-  DO JLON=KIDIA,KFDIA
+  
     ZGDZF(JLON,JLEV) = PAPHIF(JLON,JLEV-1)-PAPHIF(JLON,JLEV)
-  ENDDO ! JLON
+   ! JLON
 ENDDO   ! JLEV
 
 !*
@@ -494,12 +494,12 @@ DO JLEV=KTDIAT,KTDIAN-1
   ZGLTZ=ZGLT
   ZGLMT2=ZGLTZ**2
 
-  DO JLON=KIDIA,KFDIA
+  
 
 !         PROFIL DE LONGUEUR DE MELANGE CONSTANT
 !         CONSTANT MIXING LENGTH PROFILE
 
-    ZGZ=PAPHI(JLON,JLEV)-PAPHI(JLON,KLEV)+PGZ0(JLON)
+    ZGZ=PAPHI(JLON,JLEV)-PAPHI(JLON,KLEV)+PGZ0
     ZCK=Z3BCF*(ZGLTZ/(VKARMN*ZGZ))**2
     ZDPHI0=PAPHIF(JLON,JLEV)-PAPHIF(JLON,JLEV+1)
 
@@ -554,7 +554,7 @@ DO JLEV=KTDIAT,KTDIAN-1
 
     PNBVNO(JLON,JLEV)=ZSTA/(PAPRS(JLON,JLEV)*ZRTI*ZDPHI0)**2
 
-  ENDDO
+  
 ENDDO
 
 !     FIN DE ACCOEFK SIMPLIFIE
@@ -565,9 +565,9 @@ ENDDO
 !          SI LPBLE (Top. Entr. ) ou TKECLS (not LECTREP)
 
 
-DO JLON=KIDIA,KFDIA
-   PECTCLS(JLON)  = PECT(JLON,KLEV-1)
-ENDDO   
+
+   PECTCLS  = PECT(JLON,KLEV-1)
+   
  ! LECREP
 !*
 !     ------------------------------------------------------------------
@@ -579,10 +579,10 @@ ENDDO
 ! CALCULS DE THETA (sec)
 ! - - - - - - - - - - -
 DO JLEV=KTDIAN,KLEV
-  DO JLON=KIDIA,KFDIA
+  
     ZPREF              = PAPRSF(JLON,JLEV)
     ZTHETA(JLON,JLEV)  = PT(JLON,JLEV)*(RATM/ZPREF)**(RKAPPA)
-  ENDDO
+  
 ENDDO
 
 ! - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -594,13 +594,13 @@ ENDDO
 ! CALCUL DE  ZCOEFJF = [Lv(Tl)*qsat(Tl)]/[Rv*Tl*(Theta)l]
 ! - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 DO JLEV=KTDIAN,KLEV
-  DO JLON=KIDIA,KFDIA
+  
     ZZT                 = PT  (JLON,JLEV)
     ZQC                 = PQLI(JLON,JLEV) +PQICE(JLON,JLEV)
     ZTHETAOT            = ZTHETA(JLON,JLEV)/ZZT
     ZLOCPEXF(JLON,JLEV) = PLSCPE(JLON,JLEV)*ZTHETAOT
     ZTHETALF(JLON,JLEV) = ZTHETA(JLON,JLEV)-ZQC*ZLOCPEXF(JLON,JLEV)
-  ENDDO
+  
 ENDDO
 !!
 ! - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -608,27 +608,27 @@ ENDDO
 ! CALCUL DE (THETA)vl = (THETA)l * [ 1 + RETV*(Ql+Qi) ]
 ! - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 DO JLEV=KTDIAN,KLEV
-  DO JLON=KIDIA,KFDIA
+  
     ZQV               =   PQV (JLON,JLEV)
     ZQC               =   PQLI(JLON,JLEV)+PQICE(JLON,JLEV)
     ! ZTHETAVL(JLON,JLEV) = ZTHETALF(JLON,JLEV)*(1.0_JPRB+RETV*ZQC)
     ! ancien calcul
     ZTHETAVL(JLON,JLEV) = ZTHETA(JLON,JLEV)*(1.0_JPRB+RETV*ZQV-ZQC)
-  ENDDO
+  
 ENDDO
 
 !*
 !     ------------------------------------------------------------------
 !     V - CALCUL DES COEFFICIENTS DE MELANGE "PKUROV" ET "PKTROV".
 !     ------------------------------------------------------------------
-DO JLON = KIDIA, KFDIA
+
   ZGKUH(JLON,:)=1.E-14_JPRB
-ENDDO
-DO JLON = KIDIA, KFDIA
+
+
   ZGKTH(JLON,:)=1.E-14_JPRB
-ENDDO
+
 DO JLEV=KTDIAN,KLEV-1
-  DO JLON=KIDIA,KFDIA
+  
 
     ZDPHI    =ZGDZF(JLON,JLEV+1)
     ZZRT     =0.5_JPRB*(ZRTV(JLON,JLEV)+ZRTV(JLON,JLEV+1))
@@ -640,7 +640,7 @@ DO JLEV=KTDIAN,KLEV-1
     PKTROV(JLON,JLEV)=ZGKTH(JLON,JLEV)*ZROSDPHI
     PKUROV(JLON,JLEV)=ZGKUH(JLON,JLEV)*ZROSDPHI
 
-  ENDDO ! JLON
+   ! JLON
 ENDDO ! JLEV
 
 !*
@@ -650,12 +650,12 @@ ENDDO ! JLEV
 !          PGKCLS=g*KUCLS ET DE LA LONGEUR DE MELANGE PLMECT (A KLEV).
 !     ------------------------------------------------------------------
 
-DO JLON=KIDIA,KFDIA
 
-  PGKCLS(JLON) = 0._JPRB
+
+  PGKCLS = 0._JPRB
   ZGKTH (JLON,KLEV)= 0._JPRB
   ZGKUH (JLON,KLEV)= 0._JPRB
-ENDDO ! JLON
+ ! JLON
 
    
 
@@ -668,7 +668,7 @@ ENDDO ! JLON
 !     ------------------------------------------------------------------
 
 DO JLEV=KTDIAN,KLEV-1
-  DO JLON=KIDIA,KFDIA
+  
     ZDPHI =PAPHIF(JLON,JLEV)-PAPHIF(JLON,JLEV+1)
     ZCIS  =MAX(ZEPS1,(PU(JLON,JLEV)-PU(JLON,JLEV+1))**2 &
      & +(PV(JLON,JLEV)-PV(JLON,JLEV+1))**2)  
@@ -677,7 +677,7 @@ DO JLEV=KTDIAN,KLEV-1
     ZSTA  =ZDPHI*ZDTETA*ZZRT
     ZSTA  =ZSTA/(1.0_JPRB+MAX(0.0_JPRB,ZSTA)*USURIC/ZCIS)
     PNBVNO(JLON,JLEV)=ZSTA/(PAPRS(JLON,JLEV)*ZZRT*ZDPHI)**2
-  ENDDO ! JLON
+   ! JLON
 ENDDO ! JLEV
 
 !*
@@ -700,7 +700,7 @@ ENDDO ! JLEV
 ! - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 DO JLEV=KTDIAN,KLEV-1
-  DO JLON=KIDIA,KFDIA
+  
 
 !         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 !         VIII.1 - VARIABLES AUXILIAIRES ET DE TRAVAIL (demi-niveaux).
@@ -815,11 +815,11 @@ DO JLEV=KTDIAN,KLEV-1
 
     PPRODTH(JLON,JLEV) = ZPRODH+ ZL3F2*ZPRODC
 
-  ENDDO !  JLON=KIDIA, KFDIA
+   !  JLON=KIDIA, KFDIA
 ENDDO   !  JLEV=KTDIAN,KLEV-1
-DO JLON=KIDIA,KFDIA
+
    PPRODTH(JLON,KLEV)=PPRODTH(JLON,KLEV-1)
-ENDDO
+
 
 ! - - - - - - - - - - - - - - - - - - - - - - - - -
 ! ** FIN DES BOUCLES VERTICALES ET HORIZONTALES  **
@@ -844,12 +844,12 @@ ENDDO
 !        > SUR LES NIVEAUX DU MODELE).
 !     ------------------------------------------------------------------
  
-DO JLON = KIDIA, KFDIA
+
   PNEBS(JLON,:) = ZEPNEBS
-ENDDO
-DO JLON = KIDIA, KFDIA
+
+
   PQCS(JLON,:)  = 0.0_JPRB
-ENDDO
+
  ! KEY LNEBECT
 
 !         - - - - - - - - - - - - - - - - - - - -

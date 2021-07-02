@@ -66,28 +66,30 @@ INTEGER(KIND=JPIM) :: JLEV, JLON
 
 init_stack ()
 
+JLON = KIDIA
+
 IF (KINI == 1) THEN
    DO JLEV = KTDIAT+1, KLEV
-   DO JLON = KIDIA,KFDIA
+   
       PXFL(JLON,JLEV)=((PXHL(JLON,JLEV)-PXHL(JLON,JLEV-1)) &
             & *PAPRSF(JLON,JLEV) &
             & + PXHL(JLON,JLEV-1)*PAPRS(JLON,JLEV) &
             & - PXHL(JLON,JLEV)*PAPRS(JLON,JLEV-1)) & 
             & / (PAPRS(JLON,JLEV)-PAPRS(JLON,JLEV-1))
+   
    ENDDO
-   ENDDO
-   DO JLON = KIDIA,KFDIA
+   
       PXFL(JLON,KTDIAT)= PXFL(JLON,KTDIAT+1)
-   ENDDO
+   
 ELSE
    DO JLEV = KTDIAT, KLEV
-   DO JLON = KIDIA,KFDIA
+   
       PXFL(JLON,JLEV)=((PXHL(JLON,JLEV)-PXHL(JLON,JLEV-1)) &
             & *PAPRSF(JLON,JLEV) &
             & + PXHL(JLON,JLEV-1)*PAPRS(JLON,JLEV) &
             & - PXHL(JLON,JLEV)*PAPRS(JLON,JLEV-1)) & 
             & / (PAPRS(JLON,JLEV)-PAPRS(JLON,JLEV-1))
-   ENDDO
+   
    ENDDO
 ENDIF
 

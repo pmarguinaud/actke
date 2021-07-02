@@ -409,17 +409,17 @@ DO IBLOCK = 1, ICOUNT1
     JIDIA = JJ
     JFDIA = JJ
    
-    CALL SIMPLE4_ACTKE (JIDIA, JFDIA, KLON, KTDIAT, KTDIAN, KLEV, PAPHI_ALL (:,:,                       &
-    & IBLOCK), PAPHIF_ALL (:,:, IBLOCK), PAPRS_ALL (:,:, IBLOCK), PAPRSF_ALL (:,:, IBLOCK),             &
-    & PDELP_ALL (:,:, IBLOCK), PR_ALL (:,:, IBLOCK), PT_ALL (:,:, IBLOCK), PU_ALL (:,:, IBLOCK),        &
-    & PV_ALL (:,:, IBLOCK), PQ_ALL (:,:, IBLOCK), PLSCPE_ALL (:,:, IBLOCK), PCD_ALL (:, IBLOCK),        &
-    & PCH_ALL (:, IBLOCK), PGZ0_ALL (:, IBLOCK), PTS_ALL (:, IBLOCK), PQS_ALL (:, IBLOCK), PQICE_ALL (  &
-    & :,:, IBLOCK), PQLI_ALL (:,:, IBLOCK), PECT_ALL (:,:, IBLOCK), PPRODTH_ALL (:,:, IBLOCK),          &
-    & PNLAB_ALL (:,:, IBLOCK), PNLABCVP_ALL (:,:, IBLOCK), PKTROV_ALL (:,:, IBLOCK), PKUROV_ALL (:,     &
-    & :, IBLOCK), PXTROV_ALL (:,:, IBLOCK), PXUROV_ALL (:,:, IBLOCK), PNBVNO_ALL (:,:, IBLOCK),         &
-    & PNEBS_ALL (:,:, IBLOCK), PQCS_ALL (:,:, IBLOCK), PNEBS0_ALL (:,:, IBLOCK), PQCS0_ALL (:,:,        &
-    & IBLOCK), PCOEFN_ALL (:,:, IBLOCK), PFECT_ALL (:,:, IBLOCK), PECT1_ALL (:,:, IBLOCK),              &
-    & PTPRDY_ALL (:,:, IBLOCK), PEDR_ALL (:,:, IBLOCK), RG, RPRTH, ECTMIN, TSPHY, ACBRPHIM,             &
+    CALL SIMPLE4_ACTKE (JIDIA, JFDIA, KLON, KTDIAT, KTDIAN, KLEV, PAPHI_ALL (:,:,                           &
+    & IBLOCK), PAPHIF_ALL (:,:, IBLOCK), PAPRS_ALL (:,:, IBLOCK), PAPRSF_ALL (:,:, IBLOCK),                 &
+    & PDELP_ALL (:,:, IBLOCK), PR_ALL (:,:, IBLOCK), PT_ALL (:,:, IBLOCK), PU_ALL (:,:, IBLOCK),            &
+    & PV_ALL (:,:, IBLOCK), PQ_ALL (:,:, IBLOCK), PLSCPE_ALL (:,:, IBLOCK), PCD_ALL (JJ, IBLOCK),           &
+    & PCH_ALL (JJ, IBLOCK), PGZ0_ALL (JJ, IBLOCK), PTS_ALL (JJ, IBLOCK), PQS_ALL (JJ, IBLOCK), PQICE_ALL (  &
+    & :,:, IBLOCK), PQLI_ALL (:,:, IBLOCK), PECT_ALL (:,:, IBLOCK), PPRODTH_ALL (:,:, IBLOCK),              &
+    & PNLAB_ALL (:,:, IBLOCK), PNLABCVP_ALL (:,:, IBLOCK), PKTROV_ALL (:,:, IBLOCK), PKUROV_ALL (:,         &
+    & :, IBLOCK), PXTROV_ALL (:,:, IBLOCK), PXUROV_ALL (:,:, IBLOCK), PNBVNO_ALL (:,:, IBLOCK),             &
+    & PNEBS_ALL (:,:, IBLOCK), PQCS_ALL (:,:, IBLOCK), PNEBS0_ALL (:,:, IBLOCK), PQCS0_ALL (:,:,            &
+    & IBLOCK), PCOEFN_ALL (:,:, IBLOCK), PFECT_ALL (:,:, IBLOCK), PECT1_ALL (:,:, IBLOCK),                  &
+    & PTPRDY_ALL (:,:, IBLOCK), PEDR_ALL (:,:, IBLOCK), RG, RPRTH, ECTMIN, TSPHY, ACBRPHIM,                 &
     & ADISE, ADISI, AKN, ALD, ALMAV, ALMAVE, ALMAVX, ALPHAE, ALPHAT, ARSB2, ARSC1,  &
     & ECTMAX, EDB, EDC, EDD, RALPD, RALPS, RALPW, RATM, RBETD, RBETS, RBETW, RCPV,  &
     & RCS, RCW, RD, RDT, RETV, RGAMD, RGAMS, RGAMW, RKAPPA, RLSTT, RLVTT, RTT, RV,  &
